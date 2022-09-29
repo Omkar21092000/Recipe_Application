@@ -17,9 +17,9 @@ import com.infy.menu.service.RecipeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// Controller Class
 @RestController
 @RequestMapping("/menu")
-
 public class RecipeController {
 	private static Logger logger = LoggerFactory.getLogger(RecipeService.class);
 	@Autowired
@@ -71,16 +71,15 @@ public class RecipeController {
 		 return new ResponseEntity<>(this.recipeService.getallveg(vegeterian),HttpStatus.OK);
 	 }
 	  
+
 	//  Recipe that can serve number of person which has specific ingredient in recipe-ingredient
 	 @GetMapping("/getingredient/{no_serving}/{specific_ingedient}")
-	 public ResponseEntity<List<RecipeEntity>> getbyspecific(@PathVariable Integer no_serving,@PathVariable String specific_ingedient){
+	 public ResponseEntity<List<RecipeEntity>>getbyspecific(@PathVariable Integer no_serving,@PathVariable String specific_ingedient){
 		try{
 			return new ResponseEntity<>(this.recipeService.getbyingredient(no_serving,specific_ingedient),HttpStatus.OK);
-
 		}catch(Exception e){
 			logger.error(e.getMessage(),e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
 		}
 	 }
 	 

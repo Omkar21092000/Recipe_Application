@@ -2,6 +2,7 @@ package com.infy.menu.service;
 import com.infy.menu.entity.RecipeEntity;
 import java.util.List;
 
+// Service Interface class
 public interface RecipeServiceInterface{
 
     public String addnewfood(RecipeEntity recipe);

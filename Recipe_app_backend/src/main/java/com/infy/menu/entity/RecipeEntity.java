@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+// Entity class
 @Entity
 @Table(name="foodlist")
 public class RecipeEntity {
@@ -63,10 +65,10 @@ public class RecipeEntity {
 	public void setIngredient(String ingredient) {
 		this.ingredient = ingredient;
 	}
-	public RecipeEntity(long id, String dishname, String type, String methodofcooking, String ingredient,
+	public RecipeEntity(String dishname, String type, String methodofcooking, String ingredient,
 			Integer serve) {
 		super();
-		this.id = id;
+		
 		this.dishname = dishname;
 		this.type = type;
 		this.methodofcooking = methodofcooking;

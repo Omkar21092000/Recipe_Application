@@ -10,6 +10,7 @@ import com.infy.menu.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// Service Class 
 @Service("recipeServiceInterface")
 public class RecipeService implements RecipeServiceInterface {
 
@@ -25,15 +26,15 @@ public class RecipeService implements RecipeServiceInterface {
 
 	// Fetching all the recipe in detials
     public List<RecipeEntity> fetchmenulist(){
-		List<RecipeEntity> recipes = recipeRepository.findAll();
-		if(recipes.isEmpty()) {
-			//Throw Recipe_empty exception here
-			System.out.println("Recipe list empty");
-			logger.info("In log Exception ");
-			throw new Recipe_emptyException("Recipe list is empty ");
-		}
-		else {
-			return recipes; 
+
+		try {
+			List<RecipeEntity>  recipes = recipeRepository.findAll();
+			if( recipes.isEmpty()) {
+				throw new Recipe_emptyException("No data in database of recipe");
+			}
+			return recipes;
+		} catch (Exception e) {
+			throw new Recipe_emptyException(e.getMessage());
 		}
     }
 
@@ -69,16 +70,17 @@ public class RecipeService implements RecipeServiceInterface {
     
 	// Fetching recipe with has number of serving > then serve with specific_ingredient
     public List<RecipeEntity> getbyingredient(Integer no_serving,String specific_ingredient){
-    	List<RecipeEntity> flists=null;
-    	List<RecipeEntity> specificlist= new ArrayList<RecipeEntity>();
-    	flists=recipeRepository.findbuyserving(no_serving);
-    	for(RecipeEntity i :flists) {
-			String a=i.getIngredient();			
-			if(a.toLowerCase().contains(specific_ingredient.toLowerCase())){
-				specificlist.add(i);
+		List<RecipeEntity> flists=null;
+		try{
+			flists=recipeRepository.findrepobyserver_ingredient(no_serving, specific_ingredient);
+			if(flists.isEmpty()){
+				throw new Recipe_emptyException("No recipe found in list");
 			}
-    	}
-    	return specificlist;
+			return flists;
+		}catch(Exception e){
+			throw new Recipe_emptyException(e.getMessage());
+		}
+
     }
     
 	// Fetching recipe which doesn't have this ingredient and display which have methodcooking is eqaul to methodcook
@@ -100,5 +102,11 @@ public class RecipeService implements RecipeServiceInterface {
 			}
     	}
     	return specificlist;	
-    }   
+    }
+
+	public RecipeService(RecipeRepository recipeRepository) {
+		this.recipeRepository = recipeRepository;
+	}   
+
+	
 }
